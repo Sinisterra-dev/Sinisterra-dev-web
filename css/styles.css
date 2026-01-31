@@ -1,0 +1,188 @@
+/* Estilos adicionales y animaciones "pro" */
+
+/* --- Animated gradient heading --- */
+.hero-gradient {
+  background: linear-gradient(90deg, rgba(16,185,129,1), rgba(34,211,238,0.9), rgba(168,85,247,0.9));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-rotate 6s linear infinite;
+  background-size: 300% 300%;
+}
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- Soft floating on cards (independent of hover) --- */
+.card-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+/* --- Subtle "glass" inner shine on hover --- */
+.bento-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: -40%;
+  background: radial-gradient(600px 200px at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255,255,255,0.03), transparent 20%);
+  transition: opacity .4s ease, transform .4s ease;
+  opacity: 0;
+}
+.bento-card:hover::after { opacity: 1; transform: translateY(-4px); }
+
+/* --- Card tilt (fallback styles) --- */
+.card-tilt, .card-project, .card-cta {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* --- Smooth marquee pause on hover --- */
+#marquee:hover { animation-play-state: paused !important; cursor: grab; }
+
+/* --- portrait background helpers --- */
+.portrait-bg {
+  transform-origin: center;
+  transition: transform 0.6s cubic-bezier(.2,.9,.2,1);
+}
+
+/* --- project bg parallax --- */
+.project-bg {
+  transform-origin: center;
+  transition: transform 0.8s cubic-bezier(.2,.9,.2,1), filter 0.6s;
+  filter: saturate(.8) brightness(.85);
+}
+.group:hover .project-bg { filter: saturate(1.05) brightness(1); }
+
+/* --- Cursor size changes when hovering actionable items --- */
+[data-cursor="big"] { transform: translate(-50%, -50%) scale(1.25); transition: transform .12s linear; }
+
+/* --- Typing effect minimal clean style --- */
+.typing {
+  display: inline-block;
+  position: relative;
+}
+.typing::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 1.2em;
+  background: white;
+  margin-left: 6px;
+  animation: blink 1s infinite steps(2, start);
+  opacity: .85;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- small utility for highlighted words --- */
+.word-pop {
+  display:inline-block; transform-origin:center; transition: transform .25s cubic-bezier(.2,.9,.2,1);
+}
+.word-pop:hover { transform: translateY(-3px) scale(1.03); }
+
+/* --- Responsive tweak: keep hero big but tidy --- */
+@media (max-width: 640px) {
+  .hero-subtitle { font-size: 1rem; }
+  .glass-nav { left: 1rem; transform: none; }
+}
+/* ============================= */
+/* HERO LAYOUT – MOBILE FIRST   */
+/* ============================= */
+
+.hero {
+  min-height: 100vh;
+  padding: 6rem 1rem 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Contenedor interno del hero */
+.hero-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+/* Imagen / retrato */
+.hero-portrait {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: cover;
+  border-radius: 1.25rem;
+}
+
+/* Títulos */
+.hero-title {
+  font-size: 1.6rem;
+  line-height: 1.3;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* ============================= */
+/* TABLET Y DESKTOP              */
+/* ============================= */
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 100vh;
+    padding: 7rem 3rem;
+  }
+
+  .hero-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 3rem;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-portrait {
+    max-width: 320px;
+  }
+}
+
+/* ============================= */
+/* MOBILE FINO (IPHONE)          */
+/* ============================= */
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: auto;
+    padding-top: 6.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.45rem;
+  }
+
+  .hero-portrait {
+    max-width: 220px;
+  }
+
+  /* Quitar animaciones pesadas en mobile */
+  .card-float {
+    animation: none;
+  }
+
+  .bento-card::after {
+    display: none;
+  }
+}
