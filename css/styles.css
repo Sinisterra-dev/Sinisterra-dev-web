@@ -50,6 +50,21 @@
 .portrait-bg {
   transform-origin: center;
   transition: transform 0.6s cubic-bezier(.2,.9,.2,1);
+  background-position: center top !important;
+}
+
+/* Mobile portrait positioning */
+@media (max-width: 640px) {
+  .portrait-bg {
+    background-position: center 25% !important; /* Move up to show face */
+    background-size: 120% auto !important; /* Slightly zoomed */
+    background-repeat: no-repeat !important;
+  }
+  
+  .card-portrait { 
+    height: auto !important; 
+    min-height: 350px !important; /* More height */
+  }
 }
 
 /* --- project bg parallax --- */
@@ -90,6 +105,61 @@
 @media (max-width: 640px) {
   .hero-subtitle { font-size: 1rem; }
   .glass-nav { left: 1rem; transform: none; }
+}
+
+/* --- Mobile Optimizations --- */
+@media (max-width: 640px) {
+  /* Better text sizing - reduce name size */
+  h1 { font-size: 2rem !important; line-height: 1.1 !important; }
+  h2 { font-size: 1.875rem !important; line-height: 1.2 !important; }
+  h3 { font-size: 1.25rem !important; line-height: 1.3 !important; }
+  
+  /* Better spacing */
+  .bento-card { padding: 1rem !important; }
+  .bento-card p { margin-bottom: 0.75rem !important; }
+  
+  /* Fix portrait card height on mobile */
+  .card-portrait { 
+    height: auto !important; 
+    min-height: 350px !important; /* More height */
+  }
+  
+  /* Fix grid layout to prevent overlap */
+  #hero {
+    grid-auto-rows: auto !important; /* Let cards define their own height */
+  }
+  
+  /* Better touch targets */
+  a, button { min-height: 44px; min-width: 44px; }
+  
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    .bento-card:hover { transform: none; }
+    .group:hover .project-bg { transform: none; }
+    .card-tilt:hover { transform: none; }
+  }
+  
+  /* Better navigation positioning */
+  .glass-nav { 
+    top: 1rem; 
+    left: 1rem !important; 
+    right: 1rem; 
+    transform: none !important;
+    border-radius: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+  
+  /* Improve marquee for mobile */
+  .marquee-track { animation-duration: 20s; }
+}
+
+/* --- Small mobile (iPhone SE, etc) --- */
+@media (max-width: 380px) {
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.125rem !important; }
+  .text-xs { font-size: 0.625rem !important; }
+  .text-sm { font-size: 0.75rem !important; }
 }
 /* ============================= */
 /* HERO LAYOUT – MOBILE FIRST   */

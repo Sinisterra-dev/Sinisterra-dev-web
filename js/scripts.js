@@ -30,8 +30,17 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 /* Tilt 3D para tarjetas (.card-tilt y .bento-card) */
 (() => {
   const cards = document.querySelectorAll('.card-tilt, .card-project, .card-cta, .bento-card');
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
   cards.forEach(card => {
     let rect = null;
+    
+    // Skip tilt effects on touch devices for better performance
+    if (isTouchDevice) {
+      card.classList.add('card-float');
+      return;
+    }
+    
     card.addEventListener('mousemove', (e) => {
       rect = rect || card.getBoundingClientRect();
       const cx = rect.left + rect.width/2;
@@ -147,6 +156,57 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
     });
   }, { threshold: 0.4 });
   sections.forEach(s => obs.observe(s));
+})();
+
+/* Mobile Menu Toggle */
+(() => {
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  
+  if (!mobileMenuBtn || !mobileMenu) return;
+  
+  let isOpen = false;
+  
+  function toggleMenu() {
+    isOpen = !isOpen;
+    
+    if (isOpen) {
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.add('opacity-100');
+      document.body.style.overflow = 'hidden';
+      
+      // Animate hamburger to X
+      const spans = mobileMenuBtn.querySelectorAll('span');
+      spans[0].style.transform = 'rotate(45deg) translate(2px, 2px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(2px, -2px)';
+    } else {
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.remove('opacity-100');
+      document.body.style.overflow = '';
+      
+      // Reset hamburger
+      const spans = mobileMenuBtn.querySelectorAll('span');
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
+    }
+  }
+  
+  mobileMenuBtn.addEventListener('click', toggleMenu);
+  
+  // Close menu when clicking links
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (isOpen) toggleMenu();
+    });
+  });
+  
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) toggleMenu();
+  });
 })();
 
 /* Small utility: animate numeric counters (if any) */
